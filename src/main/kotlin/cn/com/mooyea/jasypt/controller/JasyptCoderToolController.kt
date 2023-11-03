@@ -1,4 +1,4 @@
-package cn.com.mooyea.jasypt
+package cn.com.mooyea.jasypt.controller
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label

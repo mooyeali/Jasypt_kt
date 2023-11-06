@@ -83,9 +83,8 @@ class JasyptHandler {
         fun verifyKeyParameters(password: String?, algorithm: String?): Boolean {
             return (password == null || algorithm == null || password.isEmpty() || algorithm.isEmpty())
         }
-
         /**
-         * TODO 判断明文是否包含中文
+         * 判断明文是否包含中文
          *
          * @param clearText 明文
          * @return true:包含中文 false:不包含中文

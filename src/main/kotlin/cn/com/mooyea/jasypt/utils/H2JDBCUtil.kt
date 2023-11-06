@@ -50,7 +50,6 @@ object H2JDBCUtil {
             try {
                 connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD)
             } catch (e: SQLException) {
-                // TODO Auto-generated catch block
                 e.printStackTrace()
             }
             return connection

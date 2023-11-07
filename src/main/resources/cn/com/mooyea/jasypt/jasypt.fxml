@@ -47,6 +47,12 @@
                         <FXCollections fx:factory="observableArrayList" >
                             <String fx:value="PBEWITHHMACSHA512ANDAES_256" />
                             <String fx:value="PBEWithMD5AndDES" />
+                            <!-- PBEWithMD5AndDES
+                                PBEWithMD5AndTripleDES
+                                PBEWithSHA1AndDESede
+                                PBEWITHHMACSHA1AES_128
+                                PBEWITHHMACSHA1AES_256
+                             -->
                         </FXCollections>
                     </items>
                 </ChoiceBox>

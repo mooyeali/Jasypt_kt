@@ -9,16 +9,7 @@ spring:
     username: JASYPT(u9Rs+JXUsfqfYrs49kE+T2a3legikuLycZzxMN2YcWfPYBK3KvjtWXfLSaQ8qmDN)
     password: JASYPT(qFoLH4wEDqhctovFvsAe0WyrFde3BODDAYs/qLAMZ+gViAZv7+V/GVgrxyVTdBeN)
     name: jasypt
-#    username: jasypt
-#    password: jasypt!@#_H2
     url: jdbc:h2:~/history;AUTO_SERVER=TRUE
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    # generate-ddl: false
-    show-sql: true
-    hibernate:
-      # 自动建表
-      ddl-auto: update
   h2:
     console:
       path: /h2-console/histories
@@ -39,6 +30,28 @@ spring:
       encoding: UTF-8
       password: jasypt!@#_H2
       username: jasypt
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    # generate-ddl: false
+    show-sql: true
+    hibernate:
+      # 自动建表
+      ddl-auto: update
+mybatis-plus:
+  mapper-locations: classpath*:cn/com/mooyea/jasypt/**/xml/*Mapper.xml
+  global-config:
+    # 关闭MP3.0自带的banner
+    banner: false
+    db-config:
+      #主键类型  0:"数据库ID自增",1:"该类型为未设置主键类型", 2:"用户输入ID",3:"全局唯一ID (数字类型唯一ID)", 4:"全局唯一ID UUID",5:"字符串全局唯一ID (idWorker 的字符串表示)";
+      id-type: ASSIGN_ID
+      # 默认数据库表下划线命名
+      table-underline: true
+  configuration:
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 返回类型为Map,显示null对应的字段
+    call-setters-on-nulls: true
 jasypt:
   encryptor:
     password: skyvis!@#_jasypt

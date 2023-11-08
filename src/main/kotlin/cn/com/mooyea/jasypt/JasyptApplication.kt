@@ -5,6 +5,7 @@ import de.felixroske.jfxsupport.AbstractFxmlView
 import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport
 import javafx.event.Event
 import javafx.stage.Modality
+import org.mybatis.spring.annotation.MapperScan
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 /**
@@ -27,7 +28,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
  *@author mooye
  *
  */
-@SpringBootApplication
+
+@SpringBootApplication(scanBasePackages = ["cn.com.mooyea.jasypt"])
+@MapperScan("cn.com.mooyea.jasypt.**.mapper")
 class JasyptApplication: AbstractJavaFxApplicationSupport() {
     companion object{
         fun showUI(window: Class<out AbstractFxmlView>, mode: Modality) {

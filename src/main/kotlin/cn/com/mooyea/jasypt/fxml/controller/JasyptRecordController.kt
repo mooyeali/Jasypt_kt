@@ -1,9 +1,10 @@
 package cn.com.mooyea.jasypt.fxml.controller
 
 import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
-import cn.com.mooyea.jasypt.entity.JasyptRecordEntity
-import cn.com.mooyea.jasypt.utils.H2JDBCTemplate
+import cn.com.mooyea.jasypt.fxml.entity.JasyptRecordEntity
+import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import de.felixroske.jfxsupport.FXMLController
+import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -14,7 +15,7 @@ import javafx.scene.control.TextField
 import javafx.scene.control.cell.PropertyValueFactory
 import java.net.URL
 import java.util.*
-import kotlin.collections.HashMap
+import javax.annotation.Resource
 
 /**
  * <h1>JasyptRecordController<h1>
@@ -53,6 +54,9 @@ import kotlin.collections.HashMap
 </h1></h1> */
 @FXMLController
 class JasyptRecordController: Initializable {
+
+    @Resource
+    lateinit var service: IJasyptRecordService
     @FXML
     private lateinit var saltText: TextField
 
@@ -83,33 +87,22 @@ class JasyptRecordController: Initializable {
      */
     @FXML
     private fun query() {
-        var query = "select cleartext,salt,algorithm,encrypt from records where 1=1"
-        var i = 0
-        val params = HashMap<Int, String>()
-        saltText.text?.let {
-            if (it.isNotEmpty()) {
-                query = "$query and salt like ?"
-                i+=1
-                params[i] = "%${saltText.text}%"
-            }
+        log.info("查询")
+        if(this::service.isInitialized) {
+            log.info("初始化完成")
+            log.info("{},{},{}",clearText.text,
+                saltText.text,
+                algorithmChoice.value)
+            renderingData(
+                FXCollections.observableArrayList(
+                    service.queryRecord(
+                        clearText.text,
+                        saltText.text,
+                        algorithmChoice.value
+                    )
+                )
+            )
         }
-        clearText.text?.let {
-            if (it.isNotEmpty()) {
-                query= "$query and cleartext like ?"
-                i+=1
-                params[i] = "%${clearText.text}%"
-            }
-        }
-        algorithmChoice.value?.let {
-            if (it.isNotEmpty()) {
-                query= "$query and algorithm = ?"
-                i+=1
-                params[i] = algorithmChoice.value
-            }
-        }
-        // 加载表格数据
-        val data = H2JDBCTemplate().select(query, params)
-        renderingData(data)
     }
 
     /**
@@ -126,10 +119,12 @@ class JasyptRecordController: Initializable {
 
 
     fun loadRecord() {
-        val query = "select cleartext,salt,algorithm,encrypt from records"
-        // 加载表格数据
-        val data = H2JDBCTemplate().select(query, mapOf())
-        renderingData(data)
+        if (this::service.isInitialized) {
+            renderingData(
+                FXCollections.observableList(service.list()
+                )
+            )
+        }
     }
 
     private fun renderingData(data: ObservableList<JasyptRecordEntity>){

@@ -37,7 +37,6 @@ class JasyptEncryptorConfig {
     private lateinit var stringOutputType: String
     @Bean(name = ["customEncryption"])
     fun customEncryption(): StringEncryptor {
-        log.info("password:{},algorithm:{},keyObtentionIterations:{},poolSize:{},providerName:{},saltGeneratorClassName:{},ivGeneratorClassName:{},stringOutputType:{}", password, algorithm, keyObtentionIterations, poolSize, providerName, saltGeneratorClassName, ivGeneratorClassName, stringOutputType)
         val encryptor = PooledPBEStringEncryptor()
         val config = SimpleStringPBEConfig()
         config.setPassword(password)

@@ -1,0 +1,56 @@
+spring:
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+  application:
+    name: jasypt
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: JASYPT(u9Rs+JXUsfqfYrs49kE+T2a3legikuLycZzxMN2YcWfPYBK3KvjtWXfLSaQ8qmDN)
+    password: JASYPT(qFoLH4wEDqhctovFvsAe0WyrFde3BODDAYs/qLAMZ+gViAZv7+V/GVgrxyVTdBeN)
+    name: jasypt
+#    username: jasypt
+#    password: jasypt!@#_H2
+    url: jdbc:h2:~/history;AUTO_SERVER=TRUE
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    # generate-ddl: false
+    show-sql: true
+    hibernate:
+      # 自动建表
+      ddl-auto: update
+  h2:
+    console:
+      path: /h2-console/histories
+      enabled: true
+      settings:
+        web-allow-others: true
+        web-admin-password: jasypt!@#_H2
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  sql:
+    init:
+      schema-locations: classpath*:/database/schema/schema.sql
+      continue-on-error: true
+      mode: always
+      platform: H2
+      encoding: UTF-8
+      password: jasypt!@#_H2
+      username: jasypt
+jasypt:
+  encryptor:
+    password: skyvis!@#_jasypt
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    pool-size: 1
+    string-output-type: base64
+    property:
+      # 加密前缀
+      prefix: JASYPT(
+      # 加密后缀
+      suffix: )
+    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
+    salt-generator-classname: org.jasypt.salt.RandomSaltGenerator
+    provider-name: SunJCE
+    bean: customEncryption

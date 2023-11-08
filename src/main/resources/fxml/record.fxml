@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="cn.com.mooyea.jasypt.controller.JasyptRecordController">
+      fx:controller="cn.com.mooyea.jasypt.fxml.controller.JasyptRecordController">
     <VBox alignment="CENTER" VBox.vgrow="ALWAYS" >
         <!-- 搜索栏及功能按钮 -->
         <HBox maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity"

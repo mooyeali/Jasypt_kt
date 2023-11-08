@@ -69,17 +69,11 @@ class InitH2Table {
         }
         log.info("============创建表结束============")
     }
-
     companion object {
         private const val CREATE_TABLE_SQL =
             "create table records ( cleartext  varchar(300) , salt varchar(200), algorithm varchar(200),  encrypt varchar(1000));"
         private const val EXISTENCE =
             "SELECT EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'records' or TABLE_NAME = 'RECORDS');"
-
-        @JvmStatic
-        fun main(argv: Array<String>) {
-            val createTableExample = InitH2Table()
-            createTableExample.createTable()
-        }
     }
 }
+

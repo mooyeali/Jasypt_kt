@@ -1,16 +1,20 @@
-package cn.com.mooyea.jasypt.controller
+package cn.com.mooyea.jasypt.fxml.controller
 
 import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.entity.JasyptRecordEntity
 import cn.com.mooyea.jasypt.utils.H2JDBCTemplate
-import javafx.collections.FXCollections
+import de.felixroske.jfxsupport.FXMLController
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
+import javafx.fxml.Initializable
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextField
 import javafx.scene.control.cell.PropertyValueFactory
+import java.net.URL
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * <h1>JasyptRecordController<h1>
@@ -47,7 +51,8 @@ import javafx.scene.control.cell.PropertyValueFactory
  *
  * @author mooye
 </h1></h1> */
-class JasyptRecordController {
+@FXMLController
+class JasyptRecordController: Initializable {
     @FXML
     private lateinit var saltText: TextField
 
@@ -58,19 +63,19 @@ class JasyptRecordController {
     private lateinit var algorithmChoice: ChoiceBox<String>
 
     @FXML
-    private lateinit var recordTable: TableView<JasyptRecordEntity>
+    lateinit var recordTable: TableView<JasyptRecordEntity>
 
     @FXML
-    private lateinit var clearTextColumn: TableColumn<JasyptRecordEntity, String>
+    lateinit var clearTextColumn: TableColumn<JasyptRecordEntity, String>
 
     @FXML
-    private lateinit var saltColumn: TableColumn<JasyptRecordEntity, String>
+    lateinit var saltColumn: TableColumn<JasyptRecordEntity, String>
 
     @FXML
-    private lateinit var algorithmColumn: TableColumn<JasyptRecordEntity, String>
+    lateinit var algorithmColumn: TableColumn<JasyptRecordEntity, String>
 
     @FXML
-    private lateinit var ciphertextColumn: TableColumn<JasyptRecordEntity, String>
+    lateinit var ciphertextColumn: TableColumn<JasyptRecordEntity, String>
 
     /**
      * 查询按钮点击事件
@@ -81,26 +86,27 @@ class JasyptRecordController {
         var query = "select cleartext,salt,algorithm,encrypt from records where 1=1"
         var i = 0
         val params = HashMap<Int, String>()
-        val salt = saltText.text
-        if (salt != null && salt.isNotEmpty()) {
-            query = "$query and salt like ?"
-            i+=1
-            params[i] = "%${saltText.text}%"
-
+        saltText.text?.let {
+            if (it.isNotEmpty()) {
+                query = "$query and salt like ?"
+                i+=1
+                params[i] = "%${saltText.text}%"
+            }
         }
-        val cleartext = clearText.text
-        if (cleartext != null && cleartext.isNotEmpty()) {
-            query= "$query and cleartext like ?"
-            i+=1
-            params[i] = "%${clearText.text}%"
+        clearText.text?.let {
+            if (it.isNotEmpty()) {
+                query= "$query and cleartext like ?"
+                i+=1
+                params[i] = "%${clearText.text}%"
+            }
         }
-        val algorithm = algorithmChoice.value
-        if (algorithm != null && algorithm.isNotEmpty()) {
-            query= "$query and algorithm = ?"
-            i+=1
-            params[i] = algorithmChoice.value
+        algorithmChoice.value?.let {
+            if (it.isNotEmpty()) {
+                query= "$query and algorithm = ?"
+                i+=1
+                params[i] = algorithmChoice.value
+            }
         }
-//        log.info("即将执行的 SQL:{}",query)
         // 加载表格数据
         val data = H2JDBCTemplate().select(query, params)
         renderingData(data)
@@ -127,10 +133,25 @@ class JasyptRecordController {
     }
 
     private fun renderingData(data: ObservableList<JasyptRecordEntity>){
-        clearTextColumn.cellValueFactory = PropertyValueFactory("cleartext")
-        saltColumn.cellValueFactory = PropertyValueFactory("salt")
-        algorithmColumn.cellValueFactory = PropertyValueFactory("algorithm")
-        ciphertextColumn.cellValueFactory = PropertyValueFactory("encrypt")
-        recordTable.items = data
+        if (this::clearTextColumn.isInitialized) {
+            clearTextColumn.cellValueFactory = PropertyValueFactory("cleartext")
+        }
+        if (this::saltColumn.isInitialized) {
+            saltColumn.cellValueFactory = PropertyValueFactory("salt")
+        }
+        if (this::algorithmColumn.isInitialized) {
+            algorithmColumn.cellValueFactory = PropertyValueFactory("algorithm")
+        }
+        if (this::ciphertextColumn.isInitialized) {
+            ciphertextColumn.cellValueFactory = PropertyValueFactory("encrypt")
+        }
+        if (this::recordTable.isInitialized) {
+            recordTable.items = data
+        }
+    }
+
+    override fun initialize(p0: URL?, p1: ResourceBundle?) {
+        log.info("初始化")
+        loadRecord()
     }
 }

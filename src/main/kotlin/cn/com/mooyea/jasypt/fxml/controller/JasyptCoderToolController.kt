@@ -1,19 +1,23 @@
-package cn.com.mooyea.jasypt.controller
+package cn.com.mooyea.jasypt.fxml.controller
 
+import cn.com.mooyea.jasypt.JasyptApplication
 import cn.com.mooyea.jasypt.annotations.Slf4k
 import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.handler.JasyptHandler
-import cn.com.mooyea.jasypt.JasyptRecordUI
+import cn.com.mooyea.jasypt.fxml.ui.JasyptRecordUI
 import cn.com.mooyea.jasypt.utils.H2JDBCTemplate
+import de.felixroske.jfxsupport.FXMLController
+import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
-import javafx.stage.Stage
+import javafx.stage.Modality
 
 
 @Slf4k
+@FXMLController
 class JasyptCoderToolController {
     /**
      * 明文输入框
@@ -83,7 +87,6 @@ class JasyptCoderToolController {
         this.clearText.text = clearStr
         saveRecord(clearStr, saltStr, algorithmStr, cipherStr)
     }
-
     /**
      * 重置按钮点击事件
      */
@@ -98,10 +101,9 @@ class JasyptCoderToolController {
      * 记录按钮点击事件
      */
     @FXML
-    fun onRecordButtonClick() {
-        // 查看加密记录
-        val recordUI = JasyptRecordUI()
-        recordUI.showWindow(Stage())
+    fun onRecordButtonClick(event: Event) {
+        JasyptApplication.showUI(JasyptRecordUI::class.java, Modality.NONE)
+        JasyptRecordController().loadRecord()
     }
 
 
@@ -152,6 +154,14 @@ class JasyptCoderToolController {
         }
     }
 
+    /**
+     * 将加密记录插入到数据库中
+     *
+     * @param clearStr 明文
+     * @param saltStr 盐值
+     * @param algorithmStr 加密算法
+     * @param cipherStr 密文
+     */
     private fun saveRecord(clearStr: String, saltStr: String, algorithmStr: String, cipherStr: String) {
         val params = HashMap<Int, String>()
         params[1] = clearStr

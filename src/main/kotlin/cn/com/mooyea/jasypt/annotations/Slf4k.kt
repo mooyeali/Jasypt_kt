@@ -32,14 +32,11 @@ import org.apache.logging.log4j.Logger
  * <br/>
  *@author mooye
  */
-
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Slf4k {
-
     companion object {
         val <reified T> T.log: Logger
             inline get() = LogManager.getLogger(T::class.java)
-
     }
 }

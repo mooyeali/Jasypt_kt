@@ -1,20 +1,30 @@
-package cn.com.mooyea.jasypt.controller
+package cn.com.mooyea.jasypt.fxml.controller
 
+import cn.com.mooyea.jasypt.JasyptApplication
 import cn.com.mooyea.jasypt.annotations.Slf4k
 import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
+import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import cn.com.mooyea.jasypt.handler.JasyptHandler
-import cn.com.mooyea.jasypt.JasyptRecordUI
-import cn.com.mooyea.jasypt.utils.H2JDBCTemplate
+import cn.com.mooyea.jasypt.fxml.ui.JasyptRecordUI
+import de.felixroske.jfxsupport.FXMLController
+import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
-import javafx.stage.Stage
+import javafx.stage.Modality
+import org.jasypt.exceptions.EncryptionOperationNotPossibleException
+import org.springframework.jdbc.core.JdbcTemplate
+import javax.annotation.Resource
 
 
 @Slf4k
+@FXMLController
 class JasyptCoderToolController {
+
+    @Resource
+    private lateinit var jasyptRecordService: IJasyptRecordService
     /**
      * 明文输入框
      */
@@ -61,7 +71,7 @@ class JasyptCoderToolController {
         // 将加密后的密文设置到密文输入框中
         this.ciphertext.text = cipherStr
         // 将加密记录插入到数据库中
-        saveRecord(clearStr, saltStr, algorithmStr, cipherStr)
+        jasyptRecordService.saveRecord(clearStr, saltStr, algorithmStr, cipherStr)
     }
 
     /**
@@ -77,13 +87,18 @@ class JasyptCoderToolController {
         val cipherStr = ciphertext.text
         log.info("加密盐值:{},加密算法:{},密文:{}", saltStr, algorithmStr, cipherStr)
         errorAlter(saltStr, algorithmStr)
-        // 调用 JasyptHandler 对密文进行解密
-        val clearStr = JasyptHandler.decode(cipherStr, saltStr, algorithmStr)
-        // 将加密后的密文设置到密文输入框中
-        this.clearText.text = clearStr
-        saveRecord(clearStr, saltStr, algorithmStr, cipherStr)
-    }
+        try {
+            // 调用 JasyptHandler 对密文进行解密
+            val clearStr = JasyptHandler.decode(cipherStr, saltStr, algorithmStr)
+            // 将加密后的密文设置到密文输入框中
+            this.clearText.text = clearStr
+            jasyptRecordService.saveRecord(clearStr, saltStr, algorithmStr, cipherStr)
+        }catch (e: EncryptionOperationNotPossibleException){
+            log.error("解密失败", e)
+            Alert(Alert.AlertType.ERROR, "解密失败").showAndWait()
+        }
 
+    }
     /**
      * 重置按钮点击事件
      */
@@ -98,10 +113,9 @@ class JasyptCoderToolController {
      * 记录按钮点击事件
      */
     @FXML
-    fun onRecordButtonClick() {
-        // 查看加密记录
-        val recordUI = JasyptRecordUI()
-        recordUI.showWindow(Stage())
+    fun onRecordButtonClick(event: Event) {
+        JasyptApplication.showUI(JasyptRecordUI::class.java, Modality.WINDOW_MODAL)
+        JasyptRecordController().loadRecord()
     }
 
 
@@ -152,16 +166,24 @@ class JasyptCoderToolController {
         }
     }
 
-    private fun saveRecord(clearStr: String, saltStr: String, algorithmStr: String, cipherStr: String) {
-        val params = HashMap<Int, String>()
-        params[1] = clearStr
-        params[2] = saltStr
-        params[3] = algorithmStr
-        params[4] = cipherStr
-        if(H2JDBCTemplate.insert(insertSql, params)>0) {
-            log.info("插入成功")
-        }else {
-            log.warn("插入失败,数据记录为:{}",params)
-        }
-    }
+    /**
+     * 将加密记录插入到数据库中
+     *
+     * @param clearStr 明文
+     * @param saltStr 盐值
+     * @param algorithmStr 加密算法
+     * @param cipherStr 密文
+     */
+//    private fun saveRecord(clearStr: String, saltStr: String, algorithmStr: String, cipherStr: String) {
+//        val params = HashMap<Int, String>()
+//        params[1] = clearStr
+//        params[2] = saltStr
+//        params[3] = algorithmStr
+//        params[4] = cipherStr
+//        if(H2JDBCTemplate.insert(insertSql, params)>0) {
+//            log.info("插入成功")
+//        }else {
+//            log.warn("插入失败,数据记录为:{}",params)
+//        }
+//    }
 }

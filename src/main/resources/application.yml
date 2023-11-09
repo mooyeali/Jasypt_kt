@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: Jasypt
+  profiles:
+    active: 'dev'

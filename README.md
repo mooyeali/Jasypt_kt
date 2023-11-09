@@ -99,15 +99,13 @@ PBEWithMD5AndDES是一种密码基础加密（Password-Based Encryption，简称
 - JDK 11
 - javafx-sdk-17.0.9
 
-
-
-
-
 ## 项目运行截图
 ![主界面](http://cdn.mooyea.com.cn/blogs/jasypt_gui_main.png)
 <div style="text-align: center;">图1. 主界面</div>
 
 ![记录界面](http://cdn.mooyea.com.cn/blogs/jasypt_his.png)
 <div style="text-align: center;">图2. 记录界面</div>
+
+[更新历史](./CHANGELOG.md)
 
 

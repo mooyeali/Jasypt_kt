@@ -10,6 +10,8 @@
 [![项目地址](https://img.shields.io/badge/项目地址-GitHub-<yellow>)](https://github.com/Leemuyi/jasypt.git)
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 
+[English](docs/README_EN.md)
+
 ## 项目背景
 
 <p style="text-indent:2em">
@@ -106,6 +108,4 @@ PBEWithMD5AndDES是一种密码基础加密（Password-Based Encryption，简称
 ![记录界面](http://cdn.mooyea.com.cn/blogs/jasypt_his.png)
 <div style="text-align: center;">图2. 记录界面</div>
 
-[更新历史](./CHANGELOG.md)
-
-
+[更新历史](docs/CHANGELOG.md)

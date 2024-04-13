@@ -49,8 +49,6 @@ class JasyptCoderToolController {
     @FXML
     private lateinit var salt: TextField
 
-    private val insertSql = "INSERT INTO RECORDS (cleartext, salt, algorithm, encrypt) VALUES (?, ?, ?, ?)"
-
     @FXML
     fun onGenerateSalt(){
         // 生成盐值

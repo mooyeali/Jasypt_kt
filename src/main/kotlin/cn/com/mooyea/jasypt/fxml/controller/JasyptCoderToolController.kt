@@ -3,6 +3,7 @@ package cn.com.mooyea.jasypt.fxml.controller
 import cn.com.mooyea.jasypt.JasyptApplication
 import cn.com.mooyea.jasypt.annotations.Slf4k
 import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
+import cn.com.mooyea.jasypt.common.RandomChar
 import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import cn.com.mooyea.jasypt.handler.JasyptHandler
 import cn.com.mooyea.jasypt.fxml.ui.JasyptRecordUI
@@ -51,6 +52,19 @@ class JasyptCoderToolController {
 
     private val insertSql = "INSERT INTO RECORDS (cleartext, salt, algorithm, encrypt) VALUES (?, ?, ?, ?)"
 
+    @FXML
+    fun onGenerateSalt(){
+        // 生成盐值
+        val length = RandomChar.random.nextInt(16)
+        var saltStr = ""
+        for (i in 0 until length){
+            val index = RandomChar.random.nextInt(RandomChar.randomChars.size)
+            saltStr += RandomChar.randomChars[index]
+        }
+        log.info("生成的随机盐为:$saltStr，随机盐长度为:$length")
+        // 将生成的随机盐写入salt输入框
+        salt.text = saltStr
+    }
 
     /**
      * 加密按钮点击事件

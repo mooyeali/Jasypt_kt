@@ -27,6 +27,13 @@
                 </padding>
                 <TextField prefHeight="27.0" fx:id="salt" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS"/>
             </VBox>
+            <VBox>
+                <padding>
+                    <Insets left="5.0"/>
+                </padding>
+                <Button text="随机盐" onAction="#onGenerateSalt" maxHeight="Infinity" maxWidth="Infinity"
+                        minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS"/>
+            </VBox>
         </HBox>
         <HBox maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
             <padding>
@@ -113,4 +120,3 @@
         </VBox>
     </HBox>
 </VBox>
-

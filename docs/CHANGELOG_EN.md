@@ -18,3 +18,7 @@
 **Add Profile**
 - Added English readme documents
 - Added updated elapsed files in English
+
+## 2024-4-13
+**NEW FEATURES**
+- Added the function of random generation of encrypted salt value

@@ -5,8 +5,8 @@ import cn.com.mooyea.jasypt.annotations.Slf4k
 import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.common.RandomChar
 import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
-import cn.com.mooyea.jasypt.handler.JasyptHandler
 import cn.com.mooyea.jasypt.fxml.ui.JasyptRecordUI
+import cn.com.mooyea.jasypt.handler.JasyptHandler
 import de.felixroske.jfxsupport.FXMLController
 import javafx.event.Event
 import javafx.fxml.FXML
@@ -16,7 +16,6 @@ import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.stage.Modality
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException
-import org.springframework.jdbc.core.JdbcTemplate
 import javax.annotation.Resource
 
 
@@ -179,25 +178,4 @@ class JasyptCoderToolController {
             return
         }
     }
-
-    /**
-     * 将加密记录插入到数据库中
-     *
-     * @param clearStr 明文
-     * @param saltStr 盐值
-     * @param algorithmStr 加密算法
-     * @param cipherStr 密文
-     */
-//    private fun saveRecord(clearStr: String, saltStr: String, algorithmStr: String, cipherStr: String) {
-//        val params = HashMap<Int, String>()
-//        params[1] = clearStr
-//        params[2] = saltStr
-//        params[3] = algorithmStr
-//        params[4] = cipherStr
-//        if(H2JDBCTemplate.insert(insertSql, params)>0) {
-//            log.info("插入成功")
-//        }else {
-//            log.warn("插入失败,数据记录为:{}",params)
-//        }
-//    }
 }

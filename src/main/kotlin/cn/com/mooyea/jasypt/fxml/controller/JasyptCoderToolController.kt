@@ -137,6 +137,8 @@ class JasyptCoderToolController {
     fun onCloseButtonClick() {
         // 获取当前窗口
         val stage = clearText.scene.window
+        //TODO 打开遮罩,处理错误数据
+
         // 关闭窗口
         stage.hide()
     }

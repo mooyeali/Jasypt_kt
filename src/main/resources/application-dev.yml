@@ -9,7 +9,7 @@ spring:
     username: JASYPT(u9Rs+JXUsfqfYrs49kE+T2a3legikuLycZzxMN2YcWfPYBK3KvjtWXfLSaQ8qmDN)
     password: JASYPT(qFoLH4wEDqhctovFvsAe0WyrFde3BODDAYs/qLAMZ+gViAZv7+V/GVgrxyVTdBeN)
     name: jasypt
-    url: jdbc:h2:~/history;AUTO_SERVER=TRUE
+    url: jdbc:h2:~/.h2/db/history;AUTO_SERVER=TRUE
   h2:
     console:
       path: /h2-console/histories

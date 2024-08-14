@@ -1,18 +1,7 @@
 package cn.com.mooyea.jasypt.fxml.ui
 
-import cn.com.mooyea.jasypt.fxml.controller.JasyptRecordController
 import de.felixroske.jfxsupport.AbstractFxmlView
 import de.felixroske.jfxsupport.FXMLView
-import javafx.application.Application
-import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
-import javafx.scene.Scene
-import javafx.stage.Screen
-import javafx.stage.Stage
-import org.springframework.context.ApplicationContext
-
-import org.springframework.context.annotation.Lazy
-import javax.annotation.Resource
 
 /**
  * <h1>JasyptRecordUI<h1>

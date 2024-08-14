@@ -4,15 +4,17 @@ import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.fxml.entity.JasyptRecordEntity
 import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import de.felixroske.jfxsupport.FXMLController
+import javafx.beans.InvalidationListener
 import javafx.collections.FXCollections
+import javafx.collections.ListChangeListener
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.ChoiceBox
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextField
+import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.control.cell.TextFieldTableCell
+import javafx.scene.input.Clipboard
+import javafx.scene.input.ClipboardContent
 import java.net.URL
 import java.util.*
 import javax.annotation.Resource
@@ -120,25 +122,26 @@ class JasyptRecordController: Initializable {
 
     fun loadRecord() {
         if (this::service.isInitialized) {
-            renderingData(
-                FXCollections.observableList(service.list()
-                )
-            )
+            renderingData(FXCollections.observableList(service.list()))
+            recordTable.selectionModel.isCellSelectionEnabled = true
         }
     }
 
     private fun renderingData(data: ObservableList<JasyptRecordEntity>){
         if (this::clearTextColumn.isInitialized) {
             clearTextColumn.cellValueFactory = PropertyValueFactory("cleartext")
+            copyToClipboard(clearTextColumn)
         }
         if (this::saltColumn.isInitialized) {
             saltColumn.cellValueFactory = PropertyValueFactory("salt")
+            copyToClipboard(saltColumn)
         }
         if (this::algorithmColumn.isInitialized) {
             algorithmColumn.cellValueFactory = PropertyValueFactory("algorithm")
         }
         if (this::ciphertextColumn.isInitialized) {
             ciphertextColumn.cellValueFactory = PropertyValueFactory("encrypt")
+            copyToClipboard(ciphertextColumn)
         }
         if (this::recordTable.isInitialized) {
             recordTable.items = data
@@ -148,5 +151,26 @@ class JasyptRecordController: Initializable {
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         log.info("初始化")
         loadRecord()
+    }
+
+    fun copyToClipboard(column: TableColumn<JasyptRecordEntity, String>){
+        column.setCellFactory {
+            val cell = TextFieldTableCell<JasyptRecordEntity, String>()
+            cell.setOnMouseClicked { event ->
+                if (event.clickCount == 2) {
+                    val text = cell.text
+                    log.info("双击了第${cell.index}行,值为:$text")
+                    if (text.isNotEmpty()){
+                        // 写入剪切板
+                        val clipboardContent = ClipboardContent()
+                        clipboardContent.putString(text)
+                        Clipboard.getSystemClipboard().setContent(clipboardContent)
+                        // 弹出提示框
+                        Alert(Alert.AlertType.INFORMATION, "复制成功").showAndWait()
+                    }
+                }
+            }
+            return@setCellFactory cell
+        }
     }
 }

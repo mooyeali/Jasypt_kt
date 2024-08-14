@@ -6,15 +6,18 @@ import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.common.RandomChar
 import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import cn.com.mooyea.jasypt.fxml.ui.JasyptRecordUI
+import cn.com.mooyea.jasypt.fxml.ui.OverlayUi
 import cn.com.mooyea.jasypt.handler.JasyptHandler
 import de.felixroske.jfxsupport.FXMLController
 import javafx.event.Event
 import javafx.fxml.FXML
+import javafx.scene.Scene
 import javafx.scene.control.Alert
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.stage.Modality
+import javafx.stage.Stage
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException
 import javax.annotation.Resource
 
@@ -48,6 +51,7 @@ class JasyptCoderToolController {
      */
     @FXML
     private lateinit var salt: TextField
+
 
     @FXML
     fun onGenerateSalt(){
@@ -134,11 +138,9 @@ class JasyptCoderToolController {
      * 关闭按钮点击事件
      */
     @FXML
-    fun onCloseButtonClick() {
+    fun onCloseButtonClick(event: Event) {
         // 获取当前窗口
-        val stage = clearText.scene.window
-        //TODO 打开遮罩,处理错误数据
-
+        val stage: Stage = clearText.scene.window as Stage
         // 关闭窗口
         stage.hide()
     }

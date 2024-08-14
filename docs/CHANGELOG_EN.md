@@ -22,3 +22,7 @@
 ## 2024-4-13
 **NEW FEATURES**
 - Added the function of random generation of encrypted salt value
+
+## 2024-8-14
+**Added new features**
+- Add double-click copy of record page data (contains: random salt, plaintext, ciphertext)

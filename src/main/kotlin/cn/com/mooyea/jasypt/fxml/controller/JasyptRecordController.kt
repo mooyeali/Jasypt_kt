@@ -4,9 +4,7 @@ import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.fxml.entity.JasyptRecordEntity
 import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import de.felixroske.jfxsupport.FXMLController
-import javafx.beans.InvalidationListener
 import javafx.collections.FXCollections
-import javafx.collections.ListChangeListener
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable

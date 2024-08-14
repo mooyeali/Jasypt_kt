@@ -6,12 +6,10 @@ import cn.com.mooyea.jasypt.annotations.Slf4k.Companion.log
 import cn.com.mooyea.jasypt.common.RandomChar
 import cn.com.mooyea.jasypt.fxml.service.IJasyptRecordService
 import cn.com.mooyea.jasypt.fxml.ui.JasyptRecordUI
-import cn.com.mooyea.jasypt.fxml.ui.OverlayUi
 import cn.com.mooyea.jasypt.handler.JasyptHandler
 import de.felixroske.jfxsupport.FXMLController
 import javafx.event.Event
 import javafx.fxml.FXML
-import javafx.scene.Scene
 import javafx.scene.control.Alert
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.TextArea

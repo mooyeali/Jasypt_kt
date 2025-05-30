@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasypt 加密工具</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 头部 -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Jasypt 加密工具</h1>
+                <div class="header-actions">
+                    <button id="refreshBtn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> 刷新
+                    </button>
+                    <button id="clearBtn" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> 清空记录
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 左侧操作面板 -->
+            <div class="left-panel">
+                <div class="panel-section">
+                    <h3><i class="fas fa-cog"></i> 加密配置</h3>
+                    
+                    <!-- 算法选择 -->
+                    <div class="form-group">
+                        <label for="algorithm">加密算法:</label>
+                        <select id="algorithm" class="form-control">
+                            <option value="">请选择算法...</option>
+                        </select>
+                    </div>
+
+                    <!-- 密码输入 -->
+                    <div class="form-group">
+                        <label for="password">密码:</label>
+                        <div class="input-group">
+                            <input type="password" id="password" class="form-control" placeholder="请输入密码">
+                            <button type="button" id="togglePassword" class="btn btn-outline">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button type="button" id="generateSalt" class="btn btn-outline">
+                                <i class="fas fa-random"></i> 生成
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-lock"></i> 加密操作</h3>
+                    
+                    <!-- 明文输入 -->
+                    <div class="form-group">
+                        <label for="plainText">明文:</label>
+                        <textarea id="plainText" class="form-control" rows="4" placeholder="请输入要加密的明文"></textarea>
+                    </div>
+
+                    <!-- 密文输出 -->
+                    <div class="form-group">
+                        <label for="cipherText">密文:</label>
+                        <div class="input-group">
+                            <textarea id="cipherText" class="form-control" rows="4" placeholder="加密结果将显示在这里" readonly></textarea>
+                            <button type="button" id="copyCipher" class="btn btn-outline">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="button-group">
+                        <button id="encryptBtn" class="btn btn-primary">
+                            <i class="fas fa-lock"></i> 加密
+                        </button>
+                        <button id="decryptBtn" class="btn btn-success">
+                            <i class="fas fa-unlock"></i> 解密
+                        </button>
+                        <button id="clearFormBtn" class="btn btn-secondary">
+                            <i class="fas fa-eraser"></i> 清空
+                        </button>
+                        <button id="swapBtn" class="btn btn-info">
+                            <i class="fas fa-exchange-alt"></i> 交换
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 状态信息 -->
+                <div class="panel-section">
+                    <div class="status-info">
+                        <div class="status-item">
+                            <span class="status-label">状态:</span>
+                            <span id="statusText" class="status-value">就绪</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">包含中文:</span>
+                            <span id="chineseStatus" class="status-value">否</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">服务器:</span>
+                            <span id="serverStatus" class="status-value">连接中...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧记录面板 -->
+            <div class="right-panel">
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-history"></i> 操作记录</h3>
+                        <div class="filter-controls">
+                            <select id="operationFilter" class="form-control-sm">
+                                <option value="">全部操作</option>
+                                <option value="ENCRYPT">加密</option>
+                                <option value="DECRYPT">解密</option>
+                            </select>
+                            <select id="algorithmFilter" class="form-control-sm">
+                                <option value="">全部算法</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="records-container">
+                        <div id="recordsList" class="records-list">
+                            <div class="no-records">
+                                <i class="fas fa-inbox"></i>
+                                <p>暂无操作记录</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 加载遮罩 -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>处理中...</p>
+            </div>
+        </div>
+
+        <!-- 消息提示 -->
+        <div id="messageContainer" class="message-container"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
